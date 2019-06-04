@@ -1,10 +1,6 @@
 <html>
-    <head>
-      {% if title %}
-      <title>{{ title }} - Stock-price</title>
-      {% else %}
+    <head>   
       <title>Welcome to Stock-price</title>
-      {% endif %}
     </head>
     
     <body>
@@ -14,6 +10,8 @@
             {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>
             {% else %}
+                <a href="{{ url_for('herokuapp') }}">Stock</a>
+                <a href="{{ url_for('premium') }}">Premium-user</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>

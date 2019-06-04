@@ -1,5 +1,5 @@
-from flask import render_template, flash, redirect, url_for
-from app import app
+from flask import Flask, render_template, flash, redirect, url_for, request
+from app import app, db
 from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models import User
@@ -7,8 +7,25 @@ from flask_login import logout_user
 from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
-from app import db
 from app.forms import RegistrationForm
+import stripe
+
+pub_key = 'pk_test_lGXe3xx2KfcxVMohkNhLQLzn00f0OXjTw8'
+secret_key = 'sk_test_lKL5mpbIp5XQh3X750dAA8yr00laScgXRm'
+
+stripe.api_key = secret_key
+
+@app.route('/pay', methods = ['POST'])
+def pay():
+    customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
+
+    charge = stripe.Charge.create(
+        customer = customer.id,
+        amount= 3999,
+        currency ='usd',
+        description= 'Premium User'
+    )
+    return render_template('herokuapp.html')
 
 
 @app.route('/')
@@ -30,11 +47,6 @@ def index():
     
     return render_template('index.html', title='Home Page', posts=posts)
     
-@login_required
-@app.route('/herokuapp')
-def herokuapp():
-    return render_template('herokuapp.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -51,6 +63,16 @@ def login():
             next_page = url_for('index')
         return redirect(url_for('herokuapp'))
     return render_template('login.html', title='Sign In', form=form)
+
+@login_required
+@app.route('/herokuapp')
+def herokuapp():
+    return render_template('herokuapp.html')
+
+@login_required
+@app.route('/premium')
+def premium():
+    return render_template('premium.html', pub_key = pub_key)
 
 @app.route('/logout')
 def logout():
