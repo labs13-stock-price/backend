@@ -1,0 +1,46 @@
+Arguments: 
+  C:\tools\nodejs\node.exe C:\tools\yarn\bin\yarn.js add express
+
+PATH: 
+  C:\Users\ldhak\bin;C:\tools\Git\mingw64\bin;C:\tools\Git\usr\local\bin;C:\tools\Git\usr\bin;C:\tools\Git\usr\bin;C:\tools\Git\mingw64\bin;C:\tools\Git\usr\bin;C:\Users\ldhak\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\tools\nodejs;C:\tools\Git\cmd;C:\tools\yarn\bin;C:\WINDOWS\System32\OpenSSH;C:\Users\ldhak\AppData\Roaming\Python\Python37\Scripts;C:\tools\Python\Python37-32\Scripts;C:\tools\Python\Python37-32;C:\Users\ldhak\AppData\Local\Microsoft\WindowsApps;C:\tools\Microsoft VS Code\bin;C:\Users\ldhak\AppData\Roaming\npm;C:\Users\ldhak\AppData\Local\Yarn\bin;C:\tools\Git\usr\bin\vendor_perl;C:\tools\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.9.4
+
+Node version: 
+  10.11.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: connect ETIMEDOUT 104.16.16.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1113:14)
+
+npm manifest: 
+  {
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "Back-end repo for labs13-Stock-price",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/labs13-stock-price/backend.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/labs13-stock-price/backend/issues"
+    },
+    "homepage": "https://github.com/labs13-stock-price/backend#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
