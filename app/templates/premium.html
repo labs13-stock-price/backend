@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h1>Premium-User</h1>
+        <p> $39.99/month</p>
+        <form action="{{ url_for('pay') }}" method="POST">
+            <script
+                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="{{pub_key}}"
+                  data-amount="3999"
+                  data-name="Demo Site"
+                  data-description="Widget"
+                  data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                  data-locale="auto"
+                  data-currency="chf">
+            </script>
+        </form>
+    </div>
+{% endblock %}
