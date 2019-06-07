@@ -17,35 +17,33 @@ stripe.api_key = secret_key
 
 @app.route('/pay', methods = ['POST'])
 def pay():
-    customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
+    if current_user.is_authenticated:
+        customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
 
-    charge = stripe.Charge.create(
-        customer = customer.id,
-        amount= 3999,
-        currency ='usd',
-        description= 'Premium User'
-    )
-    return render_template('herokuapp.html')
+        charge = stripe.Charge.create(
+            customer = customer.id,
+            amount= 3999,
+            currency ='usd',
+            description= 'Premium User'
+        )
+        #######################
+        # currently working to update user as premium_user after successful payment.
+        print(current_user.get_id())
+        update_this = User.query.filter_by(id=current_user.get_id()).first()
+        if update_this:
+            update_this.premium_user = True
+            db.session.commit()
+            flash('Congratulations, updated as premium_user!')
+
+        #######################
+
+        return 'Thanks for payment'
 
 
 @app.route('/')
-@app.route('/index')
-
+#@app.route('/index')
 def index():
-    user = {'username': 'Lajawanti'}
-    
-    posts = [
-        {
-            'author': {'username': 'ABC'},
-            'body': 'Learning FLASK framework!'
-        },
-        {
-            'author': {'username': 'XYZ'},
-            'body': 'Flask is easier than Django framework!'
-        }
-    ]
-    
-    return render_template('index.html', title='Home Page', posts=posts)
+    return render_template('index.html', title='Home Page')
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -72,7 +70,12 @@ def herokuapp():
 @login_required
 @app.route('/premium')
 def premium():
-    return render_template('premium.html', pub_key = pub_key)
+    ######################################################################## changing 
+    user = User.query.filter_by(id=current_user.get_id()).first()
+    if user.premium_user is True:
+        return render_template('herokuapp.html')
+    else:
+        return render_template('premium.html', pub_key = pub_key)
 
 @app.route('/logout')
 def logout():
