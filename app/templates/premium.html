@@ -4,7 +4,7 @@
     <div>
         <h1>Premium-User</h1>
         <p> $39.99/month</p>
-        <form action="{{ url_for('pay') }}" method="POST">
+        <form action="{{ url_for('main.pay') }}" method="POST">
             <script
                   src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                   data-key="{{pub_key}}"
