@@ -1,5 +1,8 @@
+from flask import Blueprint
 from flask import Flask, render_template, flash, redirect, url_for, request
-from app import app, db
+#from app import app, db
+from app.extensions import db
+
 from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models import User
@@ -7,20 +10,26 @@ from flask_login import logout_user
 from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
+from werkzeug.wsgi import DispatcherMiddleware
+
 from app.forms import RegistrationForm
 import stripe
 
+
+app = Blueprint('main', __name__)
+
+
 ######################### BASIC ROUTE '/' AND '/INDEX'##############################
-@app.route('/')
 @app.route('/index')
+@app.route('/')
 def index():
-    return render_template('index.html', title='Home Page')
+    return render_template("index.html", title='Home Page')
 
 ########################## REGISTER ###########################
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -28,32 +37,36 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
     return render_template('register.html', title='Register', form=form)
 
 ######################### LOGIN ###############################
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
+
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
+
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(url_for('herokuapp'))
+            next_page = url_for('main.index')
+        #return redirect(url_for('main.herokuapp'))
+        return redirect(url_for('/dashboard/'))
+
     return render_template('login.html', title='Sign In', form=form)
 
 ######################### LOGOUT ##############################
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
 ####################### Route for logged-in user to see basic stock-price-info
@@ -94,9 +107,17 @@ def pay():
         if update_this:
             update_this.premium_user = True
             db.session.commit()
-            flash('Congratulations, updated as premium_user!')
+            #flash('Congratulations, updated as premium_user!')
 
         return render_template('premium_response.html', current_user = update_this.username)
+
+
+############################### Google-Login route ##############################################
+################################ Github-Login route ############################################# 
+################################ Twitter-Login route ############################################
+############################### FORGOT-Password route ##############################################
+############################### NEW---Password-setting###########################################
+ 
 
 
 
