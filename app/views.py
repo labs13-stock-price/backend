@@ -1,19 +1,21 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user, login_required, login_manager
 from app.models import User
-from flask_login import logout_user
-from flask_login import login_required
-from flask import request
 from werkzeug.urls import url_parse
 from app.forms import RegistrationForm
 import stripe
+from config import Config
+from flask_dance.contrib.github import make_github_blueprint, github
+from flask_dance.contrib.google import make_google_blueprint, google
+from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
 
-######################### BASIC ROUTE '/' AND '/INDEX'##############################
+######################## BASIC ROUTE '/' AND '/INDEX'##############################
 @app.route('/')
 @app.route('/index')
 def index():
+    print("HOME PAGE..............")
     return render_template('index.html', title='Home Page')
 
 ########################## REGISTER ###########################
@@ -73,9 +75,11 @@ def premium():
         return render_template('premium_update_form.html', pub_key = pub_key)
 
 ######################### STRIPE-PAYMENT-ACCEPT ROUTE to accept payment to update free-user to premium-user
-pub_key = 'pk_test_lGXe3xx2KfcxVMohkNhLQLzn00f0OXjTw8'
-secret_key = 'sk_test_lKL5mpbIp5XQh3X750dAA8yr00laScgXRm'
+
+pub_key = Config.STRIPE_PUB_KEY
+secret_key = Config.STRIPE_SECRET_KEY
 stripe.api_key = secret_key
+
 @login_required
 @app.route('/pay', methods = ['POST'])
 def pay():
@@ -99,7 +103,59 @@ def pay():
         return render_template('premium_response.html', current_user = update_this.username)
 
 ############################### Google-Login route ##############################################
+google_blueprint = make_google_blueprint(
+                                        client_id = Config.GITHUB_CLIENT_ID,
+                                        client_secret= Config.GITHUB_CLIENT_SECRET)
+app.register_blueprint(google_blueprint, url_prefix="/google.login")
+
+@app.route('/google.login')
+def google_login():
+    print("INSIDE GOOGLE LINK ROUTE.............")
+
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+    resp = google.get("/plus/v1/people/me")
+    assert resp.ok, resp.text
+    return "You are {email} on Google".format(email=resp.json()["emails"][0]["value"])
+
+
+
 ################################ Github-Login route ############################################# 
+github_blueprint = make_github_blueprint(client_id = Config.GITHUB_CLIENT_ID, 
+                                         client_secret = Config.GITHUB_CLIENT_SECRET)
+app.register_blueprint(github_blueprint, url_prefix="/github.login")
+
+@app.route('/github_login')
+def github_login():
+    print("INSIDE GITHUB LINK ROUTE.............")
+    if not github.authorized:
+        print("NOT AUTHORIZED")
+        print("#####", github)
+        return redirect(url_for('github.login'))
+        
+    github_user = github.get('/user')
+    print("GITHB SUCCESS...........")
+    
+    if github_user:
+        print("YES ..............DONE")
+        return '<h1>YES ........ GITHUB AUTHORISED USER</h1>'
+    return '<h1>Request failed'
+
+################################## GITHUB REDIRECT-URI #############
+@app.route('/ld/github/authorized')
+def github2():
+    return redirect(url_for('herokuapp'))
+
+
+
+
+
+
+
+
+
+
+
 ################################ Twitter-Login route ############################################
 ############################### FORGOT-Password route ##############################################
 ############################### NEW---Password-setting###########################################
