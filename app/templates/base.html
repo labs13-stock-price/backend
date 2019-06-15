@@ -26,12 +26,24 @@
                 }
 
                 .fa-google {
-                background: #dd4b39;
-                color: white;
+                    background: #dd4b39;
+                    color: white;
                 }
                 .fa-github {
                     background: black;
-                color: white;
+                    color: white;
+                }
+                .footer {
+                    margin-top: 50px;
+                    background-color: gray;
+                    color: white;
+                    text-align: center;
+                }
+                .nav-link{
+                    color: white;
+                }
+                .col{
+                    margin : 3%;
                 }
         </style>
     </head>
@@ -39,17 +51,44 @@
     <body>
         <div class="container">
 
-        <div style="background-color: gray; width: 1200px; height: 80px; padding-top: 10px; font-size: 20px">
-            Stock-price:
-                <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-                <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-                <a href="{{ url_for('herokuapp') }}">Stock</a>
-                <a href="{{ url_for('premium') }}">Premium-user</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
+                <nav class="navbar navbar-fixed-top navbar-expand-md" style="background-color: gray;">
+                        <a class="navbar-brand" href="{{ url_for('index') }}">
+                            <h1 style = "color:goldenrod; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Stock-Price</h1>
+                        </a>
+                        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                              <span class="navbar-toggler-icon" style="background-color: gray"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="main-navigation">
+                            <ul class="navbar-nav">
+                                <li class="nav-item" >
+                                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                                </li>
+                                
+                                {% if current_user.is_anonymous %}
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                                </li>
+                                
+                                {% else %}
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('herokuapp') }}">Stock</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('premium') }}">Premium-user</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                                </li>
+                                
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#team">Team</a>
+                                </li>
+                            </ul>
+                        </div>
+                </nav>
+              
+            
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
