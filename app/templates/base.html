@@ -1,20 +1,94 @@
 <html>
     <head>   
-      <title>Welcome to Stock-price</title>
+        <title>Welcome to Stock-price</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <style>
+                .fa {
+                    padding: 14px;
+                    font-size: 30px;
+                    width: 30px;
+                    text-align: center;
+                    text-decoration: none;
+                    margin: 5px 5px;
+                    border-radius: 55px;
+                }
+
+                .fa:hover {
+                    opacity: 0.5;
+                }
+
+                .fa-twitter {
+                background: #55ACEE;
+                color: white;
+                }
+
+                .fa-google {
+                    background: #dd4b39;
+                    color: white;
+                }
+                .fa-github {
+                    background: black;
+                    color: white;
+                }
+                .footer {
+                    margin-top: 50px;
+                    background-color: gray;
+                    color: white;
+                    text-align: center;
+                }
+                .nav-link{
+                    color: white;
+                }
+                .col{
+                    margin : 3%;
+                }
+        </style>
     </head>
     
     <body>
-        <div style="background-color: gray; width: 1200px; height: 80px; padding-top: 10px; font-size: 20px">
-            Stock-price:
-                <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-                <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-                <a href="{{ url_for('herokuapp') }}">Stock</a>
-                <a href="{{ url_for('premium') }}">Premium-user</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
+        <div class="container">
+
+                <nav class="navbar navbar-fixed-top navbar-expand-md" style="background-color: gray;">
+                        <a class="navbar-brand" href="{{ url_for('index') }}">
+                            <h1 style = "color:goldenrod; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Stock-Price</h1>
+                        </a>
+                        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                              <span class="navbar-toggler-icon" style="background-color: gray"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="main-navigation">
+                            <ul class="navbar-nav">
+                                <li class="nav-item" >
+                                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                                </li>
+                                
+                                {% if current_user.is_anonymous %}
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                                </li>
+                                
+                                {% else %}
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('herokuapp') }}">Stock</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('premium') }}">Premium-user</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                                </li>
+                                
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#team">Team</a>
+                                </li>
+                            </ul>
+                        </div>
+                </nav>
+              
+            
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -26,5 +100,115 @@
         {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
+        <div>
+                <br/></br>
+                <h2>Sentiment</h2>                    
+                <p>The goal of this research is to build a model to predict stock price movement using the sentiment from social media. Unlike previous approaches where the overall moods or sentiments are considered, the sentiments of the specific topics of the company are incorporated into the stock prediction model. Topics and related sentiments are automatically extracted from the texts in a message board by using our proposed method as well as existing topic models. In addition, this paper shows an evaluation of the effectiveness of the sentiment analysis in the stock prediction task via a large scale experiment. Comparing the accuracy average over 18 stocks in one year transaction, our method achieved 2.07% better performance than the model using historical prices only. Furthermore, when comparing the methods only for the stocks that are difficult to predict, our method achieved 9.83% better accuracy than historical price method, and 3.03% better than human sentiment method.</p>
+        </div>
+
+        <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <img src = "https://previews.123rf.com/images/tzido/tzido1611/tzido161100009/66134065-stack-of-coins-and-american-dollars-money-over-the-led-display-stock-market-exchange-data-background.jpg" 
+                                    style="width: 90%; margin-left : 4%;" alt = "image">
+                    </div>
+                    <div class="col">
+                        <div class="card-block px-2">
+                            <h4 class="card-title">Social Sentiment Indicator </h4>
+                            <p class="card-text"></p>Social sentiment indicators are based on information users post publicly to Facebook, Twitter, blog posts, discussion groups and forums. If the social sentiment indicator shows a negative change in reputation, the company can address the problem before it grows. Companies can also use this information to reduce the burden on customer service email and call centers by addressing questions and problems en masse via social media. Collecting information from social media about how consumers perceive a brand can help companies identify individuals or businesses who have a strong social media influence. By identifying those who are dissatisfied with the brand, the company can reach out, try to remedy the problem and hopefully improve its social sentiment indicator. They can also make contacts with these highly influential individuals with an eye to boosting their brand image in social media.</p>
+                            <!-- <a href="#" class="btn btn-primary">BUTTON</a> -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- TEAM-- SECTION-->
+        <section id="team">
+                <h3>Team</h3>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="width:400px">
+                            <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                            <div class="card-body">
+                                <h5 class="card-title">CJ Wright</h5>
+                                <p class="card-text">Section Lead</p>
+                                <a href="https://github.com/cwright0428" class="fa fa-github" style="width: 15%"></a>  
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="col">
+                            <div class="card" style="width:400px">
+                                <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                                <div class="card-body">
+                                    <h5 class="card-title">Victor Gordian</h5>
+                                    <p class="card-text">Team Lead</p>
+                                    <a href="https://github.com/sweetooth101" class="fa fa-github" style="width: 15%"></a>  
+                                </div>
+                            </div>
+                    </div>                
+                </div>
+    
+                <div class="row">
+                        <div class="col">
+                            <div class="card" style="width:400px">
+                                <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                                <div class="card-body">
+                                    <h5 class="card-title">Dmitriy Kavyazin</h5>
+                                    <p class="card-text">DS Developer</p>
+                                    <a href="https://github.com/DimaKav" class="fa fa-github" style="width: 15%"></a>  
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div class="col">
+                                <div class="card" style="width:400px">
+                                    <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">Zach Angell</h5>
+                                        <p class="card-text">DS Developer</p>
+                                        <a href="https://github.com/zangell44" class="fa fa-github" style="width: 15%"></a>  
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                            <div class="col">
+                                <div class="card" style="width:400px">
+                                    <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">Derek Shing</h5>
+                                        <p class="card-text">DS Developer</p>
+                                        <a href="https://github.com/derek-shing" class="fa fa-github" style="width: 15%"></a>  
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="col">
+                                    <div class="card" style="width:400px">
+                                        <!-- <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%"> -->
+                                        <div class="card-body">
+                                            <h5 class="card-title">Lajawanti Dhake</h5>
+                                            <p class="card-text">Web Developer</p>
+                                            <a href="https://github.com/lajawanti" class="fa fa-github" style="width: 15%"></a>  
+                                        </div>
+                                    </div>
+                            </div>
+                    </div>
+            </section> <!--Section Team end-->
+            
+    
+        
+    
+            <footer class="footer">
+                    &copy; Copyright 2019 <br />
+            </footer>
+            </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+      
     </body>
 </html>
