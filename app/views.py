@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm
 from flask_login import current_user, login_user, logout_user, login_required, login_manager
-from app.models import User
+from app.models import User, OAuth
 from werkzeug.urls import url_parse
 from app.forms import RegistrationForm
 import stripe
@@ -11,6 +11,41 @@ from flask_dance.contrib.github import make_github_blueprint, github
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
 
+#Password RESET
+from app.forms import ResetPasswordRequestForm, ResetPasswordForm
+from app.email import send_password_reset_email
+
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    print("############### RESET PASSWORD REQUEST   ",form.email.data)
+    if form.validate_on_submit():
+        print("EMAIL FOR RESETING PASSWORD ... :  ",form.email.data)
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user) 
+            print("EMAIL FOR RESETING PASSWORD ... :  ",form.email.data)
+            flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template('reset_password_request.html',
+                           title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', form=form)
 ######################## BASIC ROUTE '/' AND '/INDEX'##############################
 @app.route('/')
 @app.route('/index')
@@ -127,21 +162,16 @@ app.register_blueprint(github_blueprint, url_prefix="/github.login")
 
 @app.route('/github_login')
 def github_login():
-    print("INSIDE GITHUB LINK ROUTE.............")
+    print("INSIDE GITHUB LINK ROUTE.............")     
     if not github.authorized:
-        print("NOT AUTHORIZED")
-        print("#####", github)
-        return redirect(url_for('github.login'))
-        
-    github_user = github.get('/user')
-    print("GITHB SUCCESS...........")
-    
-    if github_user:
-        print("YES ..............DONE")
-        return '<h1>YES ........ GITHUB AUTHORISED USER</h1>'
-    return '<h1>Request failed'
+        return redirect(url_for("github.login"))
+    resp = github.get("/user")
+    print("GITHUB AUTHORISATION ....... : ",resp)
+    assert resp.ok
+    return "You are @{login} on GitHub".format(login=resp.json()["login"])
 
 ################################## GITHUB REDIRECT-URI #############
+github_blueprint.backend = SQLAlchemyStorage(OAuth, db.session, user=current_user)
 @app.route('/ld/github/authorized')
 def github2():
     return redirect(url_for('herokuapp'))
