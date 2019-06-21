@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 style="color: red;"> {{ current_user}} : As a premium user you can access .............</h1>
-    
+    <h5> {{ current_user}} -- As a premium user you can access</h5>
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item"
+            src="https://dashpremium001.herokuapp.com/" width=1200 height=90%>
+        </iframe>
+    </div>
 {% endblock %}

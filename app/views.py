@@ -10,6 +10,7 @@ from config import Config
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
+from sqlalchemy.orm.exc import NoResultFound
 
 #Password RESET
 from app.forms import ResetPasswordRequestForm, ResetPasswordForm
@@ -138,45 +139,70 @@ def pay():
         return render_template('premium_response.html', current_user = update_this.username)
 
 ############################### Google-Login route ##############################################
-google_blueprint = make_google_blueprint(
-                                        client_id = Config.GITHUB_CLIENT_ID,
-                                        client_secret= Config.GITHUB_CLIENT_SECRET)
-app.register_blueprint(google_blueprint, url_prefix="/google.login")
+google_blueprint = make_google_blueprint(client_id = Config.GOOGLE_CLIENT_ID,
+                                        client_secret= Config.GOOGLE_CLIENT_SECRET,
+                                        scope=["email", "profile", "openid"],
+                                        redirect_to='google_url')
+app.register_blueprint(google_blueprint, url_prefix="/google_login")
 
-@app.route('/google.login')
-def google_login():
+@app.route('/google_url')
+def google_url():
     print("INSIDE GOOGLE LINK ROUTE.............")
-
     if not google.authorized:
         return redirect(url_for("google.login"))
     resp = google.get("/plus/v1/people/me")
+    print("GOOGLE AUTHORISATION IN >>>>>>....... : ",resp)
     assert resp.ok, resp.text
-    return "You are {email} on Google".format(email=resp.json()["emails"][0]["value"])
+    print("GOOGLE C  : ",resp.json()['name']["givenName"])
 
+    ####### Google-user-database update
+    google_user = resp.json()['name']["givenName"]
+    query = User.query.filter_by(username = google_user)
 
+    try:
+        user = query.one()
+    except NoResultFound:
+        user = User(username = google_user)
+        db.session.add(user)
+        db.session.commit()
+    
+    login_user(user)
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('index')
+        return redirect(url_for('herokuapp'))
 
 ################################ Github-Login route ############################################# 
 github_blueprint = make_github_blueprint(client_id = Config.GITHUB_CLIENT_ID, 
-                                         client_secret = Config.GITHUB_CLIENT_SECRET)
-app.register_blueprint(github_blueprint, url_prefix="/github.login")
-
-@app.route('/github_login')
-def github_login():
+                                         client_secret = Config.GITHUB_CLIENT_SECRET,
+                                         redirect_to='github_url')
+app.register_blueprint(github_blueprint, url_prefix="/github_login")
+github_blueprint.backend = SQLAlchemyStorage(OAuth, db.session, user=current_user)
+@app.route('/github_url')
+def github_url():
     print("INSIDE GITHUB LINK ROUTE.............")     
     if not github.authorized:
         return redirect(url_for("github.login"))
     resp = github.get("/user")
-    print("GITHUB AUTHORISATION ....... : ",resp)
+    print("GITHUB AUTHORISATION IN github_login route....... : ",resp)
     assert resp.ok
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>> : ",resp.json()) 
 
-################################## GITHUB REDIRECT-URI #############
-github_blueprint.backend = SQLAlchemyStorage(OAuth, db.session, user=current_user)
-@app.route('/ld/github/authorized')
-def github2():
-    return redirect(url_for('herokuapp'))
+    github_user = resp.json()["login"]
+    query = User.query.filter_by(username = github_user)
 
-
+    try:
+        user = query.one()
+    except NoResultFound:
+        user = User(username = github_user)
+        db.session.add(user)
+        db.session.commit()
+    
+    login_user(user)
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('index')
+        return redirect(url_for('herokuapp'))
 
 
 
