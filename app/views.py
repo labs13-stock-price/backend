@@ -10,6 +10,7 @@ from config import Config
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
+from sqlalchemy.orm.exc import NoResultFound
 
 #Password RESET
 from app.forms import ResetPasswordRequestForm, ResetPasswordForm
@@ -171,7 +172,21 @@ def github_url():
     assert resp.ok
     print(">>>>>>>>>>>>>>>>>>>>>>>>>> : ",resp.json()) 
 
+    github_user = resp.json()["login"]
+    query = User.query.filter_by(username = github_user)
 
+    try:
+        user = query.one()
+    except NoResultFound:
+        user = User(username = github_user)
+        db.session.add(user)
+        db.session.commit()
+    
+    login_user(user)
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('index')
+        return redirect(url_for('herokuapp'))
 
 
 
