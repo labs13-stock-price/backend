@@ -157,24 +157,19 @@ def google_login():
 
 ################################ Github-Login route ############################################# 
 github_blueprint = make_github_blueprint(client_id = Config.GITHUB_CLIENT_ID, 
-                                         client_secret = Config.GITHUB_CLIENT_SECRET)
-app.register_blueprint(github_blueprint, url_prefix="/github.login")
-
-@app.route('/github_login')
-def github_login():
+                                         client_secret = Config.GITHUB_CLIENT_SECRET,
+                                         redirect_to='github_url')
+app.register_blueprint(github_blueprint, url_prefix="/github_login")
+github_blueprint.backend = SQLAlchemyStorage(OAuth, db.session, user=current_user)
+@app.route('/github_url')
+def github_url():
     print("INSIDE GITHUB LINK ROUTE.............")     
     if not github.authorized:
         return redirect(url_for("github.login"))
     resp = github.get("/user")
-    print("GITHUB AUTHORISATION ....... : ",resp)
+    print("GITHUB AUTHORISATION IN github_login route....... : ",resp)
     assert resp.ok
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])
-
-################################## GITHUB REDIRECT-URI #############
-github_blueprint.backend = SQLAlchemyStorage(OAuth, db.session, user=current_user)
-@app.route('/ld/github/authorized')
-def github2():
-    return redirect(url_for('herokuapp'))
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>> : ",resp.json()) 
 
 
 
