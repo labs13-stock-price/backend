@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm
+from app.forms import LoginForm, ContactForm
 from flask_login import current_user, login_user, logout_user, login_required, login_manager
 from app.models import User, OAuth
 from werkzeug.urls import url_parse
@@ -14,7 +14,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 #Password RESET
 from app.forms import ResetPasswordRequestForm, ResetPasswordForm
-from app.email import send_password_reset_email
+from app.email import send_password_reset_email, Message, mail
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -205,17 +205,58 @@ def github_url():
         return redirect(url_for('herokuapp'))
 
 
+############################# Twitter-Login route ############################################
+twitter_blueprint = make_twitter_blueprint(api_key = Config.TWITTER_API_KEY,
+                                           api_secret= Config.TWITTER_API_SECRET,
+                                           redirect_to='twitter_url')
+app.register_blueprint(twitter_blueprint, url_prefix="/twitter_login")
 
+@app.route('/twitter_url')
+def twitter_url():
+    print("INSIDE TWITTER LINK ROUTE.............")
+    if not twitter.authorized:
+        return redirect(url_for("twitter.login"))
+    resp = twitter.get('account/settings.json')
+    print("TWITTER AUTHORISATION IN >>>>>>....... : ",resp)
+    assert resp.ok
+    print("TWITTER C  : ",resp.json()['screen_name'])
 
+    twitter_user = resp.json()['screen_name']
+    query = User.query.filter_by(username = twitter_user)
 
-
-
-
-
-################################ Twitter-Login route ############################################
-############################### FORGOT-Password route ##############################################
-############################### NEW---Password-setting###########################################
+    try:
+        user = query.one()
+    except NoResultFound:
+        user = User(username = twitter_user)
+        db.session.add(user)
+        db.session.commit()
+    
+    login_user(user)
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('index')
+        return redirect(url_for('herokuapp'))
  
+###################### Contact route ###################################
+@app.route('/contact', methods = ['GET', 'POST'])
+def contact():
+    form = ContactForm()
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash('All fields are required.')
+            return render_template('contact.html', form = form)
+        else:
+            msg = Message(form.subject.data, sender = 'contact@example.com', recipients = [Config.MAIL_USERNAME])
+            
+            msg.body = """
+                        From: %s <%s> %s
+                       """ % (form.name.data, form.email.data, form.message.data)
+            mail.send(msg)
+            return render_template('contact.html', success=True)
+
+    elif request.method == 'GET':
+        return render_template('contact.html', form = form)
+
 
 
 
