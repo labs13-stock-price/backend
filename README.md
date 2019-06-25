@@ -4,10 +4,10 @@ Back-end as well as Front-end repo for labs13-Stock-price
 
 # API Documentation
 
-#### 1️⃣ App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
+#### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
-The complete application is build with Flask which is a microframework for Python based on Werkzeug, Jinja 2. 
+## Getting started
+The complete application is build with Flask which is a microframework for Python based on Werkzeug, Jinja 2. <br>
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 To get the server running locally:
