@@ -28,11 +28,11 @@ $ python run.py <br>
 
 ### Flask Flexibility
 
--Flask provides developers generous flexibility for developing their web applications.<br>
--The official documentation is very thorough, providing lots of details with well-written examples.<br>
--Flask is arguably one of Python’s most popular web frameworks, with plenty of tutorials and libraries available to add to your apps.<br>
--Flask is a lightweight framework with few dependencies. It takes just a few lines of Python to load Flask, and because it is modular, you can restrict the dependencies to suit your needs.<br>
--Integration with database toolkits like SQLAlchemy, SQL databases like SQLite and MySQL, and NoSQL databases like DynamoDB and MongoDB is relatively easy.<br>
+- Flask provides developers generous flexibility for developing their web applications.<br>
+- The official documentation is very thorough, providing lots of details with well-written examples.<br>
+- Flask is arguably one of Python’s most popular web frameworks, with plenty of tutorials and libraries available to add to   your apps.<br>
+- Flask is a lightweight framework with few dependencies. It takes just a few lines of Python to load Flask, and because it is    modular, you can restrict the dependencies to suit your needs.<br>
+- Integration with database toolkits like SQLAlchemy, SQL databases like SQLite and MySQL, and NoSQL databases like    DynamoDB and MongoDB is relatively easy.<br>
 
 ## Migrations
 
@@ -53,22 +53,22 @@ All server routes located within app directory- views.py
 
 #### Endpoints and Routers
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
-
-#### User Routes
-
+---------------------------------------------------------------------------------------------------------------
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+|        | `/login`                | Single user         | User can login with own credentials.               |
+|        | `/login`                | Single user         | User can login with own credentials.               |
+|     | `/logout`               | Single user         |                                                    |
+|    | `/herokuapp`        |   |                                                    |
+|    | `/premium`        |   |                                                    |
+|    | `/pay`        |   |                                                    |
+|    | `/google_url`        |   |                                                    |
+|    | `/github_url`        |   |                                                    |
+|    | `/twitter_url`        |   |                                                    |
+|    | `/contact`             |   |                                                   |
+|    | `/reset_password_request`  |    |                                             |
+|    | `/reset_password/<token>` |   |                                           |
+---------------------------------------------------------------------------------------------------------------
 
 # Data Model
 
