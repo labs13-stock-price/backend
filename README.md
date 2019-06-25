@@ -9,21 +9,22 @@ Back-end as well as Front-end repo for labs13-Stock-price
 ## Getting started
 The complete application is build with Flask which is a microframework for Python based on Werkzeug, Jinja 2. 
 <br>
+
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 To get the server running locally:
 
-- Clone this repo
-$ git clone https://github.com/labs13-stock-price/backend.git
-$ cd backend
+- Clone this repo <br>
+$ git clone https://github.com/labs13-stock-price/backend.git <br>
+$ cd backend <br><br>
 
-- Install the dependencies:
-$ pip install -r requirements.txt
+- Install the dependencies: <br>
+$ pip install -r requirements.txt <br><br>
 
-- Run the development server:
-$ python run.py
+- Run the development server: <br>
+$ python run.py <br><br>
 
-- Navigate to http://localhost:5000
+- Navigate to http://localhost:5000 <br><br>
 
 ### Backend framework goes here
 
