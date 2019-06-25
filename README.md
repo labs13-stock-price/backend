@@ -1,21 +1,28 @@
-# Stock-price(Back-end)
+# Stock-price(Back-end and Front-end)
 
-Back-end repo for labs13-Stock-price
+Back-end as well as Front-end repo for labs13-Stock-price
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
 
 ## 1️⃣ Getting started
+The complete application is build with Flask which is a microframework for Python based on Werkzeug, Jinja 2. 
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+$ git clone https://github.com/labs13-stock-price/backend.git
+$ cd backend
+
+- Install the dependencies:
+$ pip install -r requirements.txt
+
+- Run the development server:
+$ python run.py
+
+- Navigate to http://localhost:5000
 
 ### Backend framework goes here
 
