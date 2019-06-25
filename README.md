@@ -16,15 +16,15 @@ To get the server running locally:
 
 - Clone this repo <br>
 $ git clone https://github.com/labs13-stock-price/backend.git <br>
-$ cd backend <br><br>
+$ cd backend <br>
 
 - Install the dependencies: <br>
-$ pip install -r requirements.txt <br><br>
+$ pip install -r requirements.txt <br>
 
 - Run the development server: <br>
 $ python run.py <br><br>
 
-- Navigate to http://localhost:5000 <br><br>
+- Navigate to http://localhost:5000 <br>
 
 ### Backend framework goes here
 
