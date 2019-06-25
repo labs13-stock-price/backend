@@ -22,24 +22,36 @@ $ cd backend <br>
 $ pip install -r requirements.txt <br>
 
 - Run the development server: <br>
-$ python run.py <br><br>
+$ python run.py <br>
 
 - Navigate to http://localhost:5000 <br>
 
-### Backend framework goes here
+### Flask Flexibility
 
-🚫 Why did you choose this framework?
+-Flask provides developers generous flexibility for developing their web applications.<br>
+-The official documentation is very thorough, providing lots of details with well-written examples.<br>
+-Flask is arguably one of Python’s most popular web frameworks, with plenty of tutorials and libraries available to add to your apps.<br>
+-Flask is a lightweight framework with few dependencies. It takes just a few lines of Python to load Flask, and because it is modular, you can restrict the dependencies to suit your needs.<br>
+-Integration with database toolkits like SQLAlchemy, SQL databases like SQLite and MySQL, and NoSQL databases like DynamoDB and MongoDB is relatively easy.<br>
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+## Migrations
 
-## 2️⃣ Endpoints
+### App User Table
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+-------------------------------------------------------------------
+| Name          | Data type     | Primary Key | Unique | Not NULL |
+| ------------- |:-------------:|:-----------:|:------:|:--------:|
+| id            | interger      | +           | -      | -        |
+| username      | String        | -           | +      | +        |
+| email         | varchar (255) | -           | +      | +        |
+| password_hash | varchar(255)  | -           | -      | +        |
+| premium_user  | Boolean       | -           | -      | -        |
+-------------------------------------------------------------------
+## App
 
-#### Organization Routes
+All server routes located within app directory- views.py
+
+#### Endpoints and Routers
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
