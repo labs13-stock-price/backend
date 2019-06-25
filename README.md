@@ -1,10 +1,10 @@
-# Stock-price(Back-end)
+# Labs13- Stock-price(Back-end and Front-end)
 
 Back-end repo for labs13-Stock-price
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
 
 ## 1️⃣ Getting started
 
