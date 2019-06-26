@@ -54,23 +54,23 @@ All server routes located within app directory- views.py
 #### Endpoints
 
 ------------------------------------------------------------------------------------------------------------
-| Method| Endpoint                 | Access Control   | Description                                        |
-| ------| -------------------------| -----------------| -------------------------------------------------- |
-| GET   | `/index`                 | Single user      | Basic route to render `index.html` Home page       |
-| GET   | `/register`              | Single user      | Renders `register.html` form for new registration. |
-| POST  | `/register`              | Single user      | Accepts user credentials to register new user and update db User-table with hash-passwprd        |
-| GET   | `/login`                 | Single user      | Renders `login.html` form for login                |
-| POST  | `/login`                 | Single user      | User can login using his/her own credentials       |
-| GET   | `/reset_password_request`| Single user      | Renders `reset_password_request.html` form for password reset request |
-| POST  | `/reset_password/<token>`| Single user      |               |
-| GET   | `/herokuapp`             | Single user      | Free as well as paid user can see stock-price sentimental analysis    |
-| GET   | `/premium`               | Single user      | User can update as a premium user -pay and access data to decide right time to sell and buy              |
-|       | `/pay`                   | Single user      | used `stripe` payment to accept the payment        |
-|       | `/google_url`            | Single user      | User can login using his/her GOOGLE credentials    |
-|       | `/github_url`            | Single user      | User can login using his/her GITHUB credentials    |
-|       | `/twitter_url`           | Single user      | User can login using his/her TWITTER credentials   |
-| GET   | `/contact`               | Single user      | renders `contact.html` form for contacting stock-price team  |
-| POST  | `/contact`               | Single user      | accepts data from user and sends e-mail to stock-price mail-id |
+| Method| Endpoint                 | Access Control | Description                                        |
+| ------| -------------------------| ---------------| -------------------------------------------------- |
+| GET   | `/index`                 | User           | Basic route to render `index.html` Home page       |
+| GET   | `/register`              | User           | Renders `register.html` form for new registration. |
+| POST  | `/register`              | User           | Accepts user credentials to register new user and update db User-table with hash-passwprd        |
+| GET   | `/login`                 | User           | Renders `login.html` form for login                |
+| POST  | `/login`                 | User           | User can login using his/her own credentials       |
+| GET   | `/reset_password_request`| User           | Renders `reset_password_request.html` form for password reset request |
+| POST  | `/reset_password/<token>`| User           |               |
+| GET   | `/herokuapp`             | User           | Free as well as paid user can see stock-price sentimental analysis    |
+| GET   | `/premium`               | User           | User can update as a premium user -pay and access data to decide right time to sell and buy              |
+|       | `/pay`                   | User           | used `stripe` payment to accept the payment        |
+|       | `/google_url`            | User           | User can login using his/her GOOGLE credentials    |
+|       | `/github_url`            | User           | User can login using his/her GITHUB credentials    |
+|       | `/twitter_url`           | User           | User can login using his/her TWITTER credentials   |
+| GET   | `/contact`               | User           | renders `contact.html` form for contacting stock-price team  |
+| POST  | `/contact`               | User           | accepts data from user and sends e-mail to stock-price mail-id |
 ------------------------------------------------------------------------------------------------------------
 
 # Data Model
