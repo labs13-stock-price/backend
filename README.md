@@ -4,7 +4,7 @@ Back-end as well as Front-end repo for labs13-Stock-price
 
 ## Contributor
 |                                       [Lajawanti](https://github.com/lajawanti)                                        |  
-[<img src="https://avatars.githubusercontent.com/lajawanti" width = "200" />](https://github.com/zangell44) |
+[<img src="https://avatars.githubusercontent.com/lajawanti" width = "200" />](https://github.com/lajawanti) |
 
 
 # API Documentation
