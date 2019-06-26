@@ -2,6 +2,9 @@
 
 Back-end as well as Front-end repo for labs13-Stock-price
 
+## Contributor
+|                                       [Lajawanti](https://github.com/lajawanti)                                        |  
+
 # API Documentation
 
 #### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
