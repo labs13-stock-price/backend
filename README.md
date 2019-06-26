@@ -76,11 +76,11 @@ All server routes located within app directory- views.py
 
 ## Flask and Flask-extensions 
 
-[Flask Documentation](http://flask.pocoo.org/docs/)
+[Flask Documentation](http://flask.pocoo.org/docs/)<br>
 Flask is often referred to as a micro framework, because a core functionality includes WSGI and routing based on Werkzeug and template engine based on Jinja2. In addition, Flask framework has support for cookie and sessions as well as web helpers like JSON, static files etc. Obviously, this is not enough for the development of a full-fledged web application.
 There are a large number of Flask extensions available. A Flask extension is a Python module, which adds specific type of support to the Flask application.
 
-[Flask Extensions](http://flask.pocoo.org/extensions/)
+[Flask Extensions](http://flask.pocoo.org/extensions/)<br>
 These are the listed Flask-extensions used in this project
 - `Flask-login` - Flask-Login provides user session management for Flask. It handles the common tasks of logging in, logging out, and remembering your users' sessions over extended periods of time.
 - `Flask-migrate` - Flask-Migrate is an extension that handles SQLAlchemy database migrations for Flask applications using Alembic.
