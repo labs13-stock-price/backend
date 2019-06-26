@@ -1,53 +1,77 @@
-# Stock-price(Back-end)
+# Stock-price(Back-end and Front-end)
 
-Back-end repo for labs13-Stock-price
+Back-end as well as Front-end repo for labs13-Stock-price
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
+## Getting started
+The complete application is build with Flask which is a microframework for Python based on Werkzeug, Jinja 2. 
+<br>
+
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
+- Clone this repo <br>
+$ git clone https://github.com/labs13-stock-price/backend.git <br>
+$ cd backend <br>
 
-- Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- Install the dependencies: <br>
+$ pip install -r requirements.txt <br>
 
-### Backend framework goes here
+- Run the development server: <br>
+$ python run.py <br>
 
-🚫 Why did you choose this framework?
+- Navigate to http://localhost:5000 <br>
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+### Flask Flexibility
 
-## 2️⃣ Endpoints
+- Flask provides developers generous flexibility for developing their web applications.<br>
+- The official documentation is very thorough, providing lots of details with well-written examples.<br>
+- Flask is arguably one of Python’s most popular web frameworks, with plenty of tutorials and libraries available to add to   your apps.<br>
+- Flask is a lightweight framework with few dependencies. It takes just a few lines of Python to load Flask, and because it is    modular, you can restrict the dependencies to suit your needs.<br>
+- Integration with database toolkits like SQLAlchemy, SQL databases like SQLite and MySQL, and NoSQL databases like    DynamoDB and MongoDB is relatively easy.<br>
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+## Migrations
 
-#### Organization Routes
+### App User Table
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+-------------------------------------------------------------------
+| Name          | Data type     | Primary Key | Unique | Not NULL |
+| ------------- |:-------------:|:-----------:|:------:|:--------:|
+| id            | Interger      | +           | -      | -        |
+| username      | String        | -           | +      | +        |
+| email         | String        | -           | +      | +        |
+| password_hash | String        | -           | -      | +        |
+| premium_user  | Boolean       | -           | -      | -        |
+-------------------------------------------------------------------
+## App
 
-#### User Routes
+All server routes located within app directory- views.py
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+#### Endpoints
+
+------------------------------------------------------------------------------------------------------------
+| Method| Endpoint                 | Access Control | Description                                        |
+| ------| -------------------------| ---------------| -------------------------------------------------- |
+| GET   | `/index`                 | User           | Basic route to render `index.html` Home page       |
+| GET   | `/register`              | User           | Renders `register.html` form for new registration. |
+| POST  | `/register`              | User           | Accepts user credentials to register new user and update db User-table with hash-passwprd        |
+| GET   | `/login`                 | User           | Renders `login.html` form for login                |
+| POST  | `/login`                 | User           | User can login using his/her own credentials       |
+| GET   | `/reset_password_request`| User           | Renders `reset_password_request.html` form for password reset request |
+| POST  | `/reset_password/<token>`| User           |               |
+| GET   | `/herokuapp`             | User           | Free as well as paid user can see stock-price sentimental analysis    |
+| GET   | `/premium`               | User           | User can update as a premium user -pay and access data to decide right time to sell and buy              |
+|       | `/pay`                   | User           | used `stripe` payment to accept the payment        |
+|       | `/google_url`            | User           | User can login using his/her GOOGLE credentials    |
+|       | `/github_url`            | User           | User can login using his/her GITHUB credentials    |
+|       | `/twitter_url`           | User           | User can login using his/her TWITTER credentials   |
+| GET   | `/contact`               | User           | renders `contact.html` form for contacting stock-price team  |
+| POST  | `/contact`               | User           | accepts data from user and sends e-mail to stock-price mail-id |
+------------------------------------------------------------------------------------------------------------
 
 # Data Model
 
