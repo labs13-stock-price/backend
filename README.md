@@ -6,7 +6,6 @@ Back-end as well as Front-end repo for labs13-Stock-price
 ### [Lajawanti](https://github.com/lajawanti)                                         
 [<img src="https://avatars.githubusercontent.com/lajawanti" width = "200" />](https://github.com/lajawanti) |
 
-
 # API Documentation
 
 #### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
