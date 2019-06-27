@@ -2,6 +2,11 @@
 
 Back-end as well as Front-end repo for labs13-Stock-price
 
+## Contributor
+### [Lajawanti](https://github.com/lajawanti)                                         
+[<img src="https://avatars.githubusercontent.com/lajawanti" width = "200" />](https://github.com/lajawanti) |
+
+
 # API Documentation
 
 #### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
@@ -34,19 +39,6 @@ $ python run.py <br>
 - Flask is a lightweight framework with few dependencies. It takes just a few lines of Python to load Flask, and because it is    modular, you can restrict the dependencies to suit your needs.<br>
 - Integration with database toolkits like SQLAlchemy, SQL databases like SQLite and MySQL, and NoSQL databases like    DynamoDB and MongoDB is relatively easy.<br>
 
-## Migrations
-
-### App User Table
-
--------------------------------------------------------------------
-| Name          | Data type     | Primary Key | Unique | Not NULL |
-| ------------- |:-------------:|:-----------:|:------:|:--------:|
-| id            | Interger      | +           | -      | -        |
-| username      | String        | -           | +      | +        |
-| email         | String        | -           | +      | +        |
-| password_hash | String        | -           | -      | +        |
-| premium_user  | Boolean       | -           | -      | -        |
--------------------------------------------------------------------
 ## App
 
 All server routes located within app directory- views.py
@@ -75,123 +67,65 @@ All server routes located within app directory- views.py
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
+### App User Table
 
-#### 2️⃣ ORGANIZATIONS
+-------------------------------------------------------------------
+| Name          | Data type     | Primary Key | Unique | Not NULL |
+| ------------- |:-------------:|:-----------:|:------:|:--------:|
+| id            | Interger      | +           | -      | -        |
+| username      | String        | -           | +      | +        |
+| email         | String        | -           | +      | +        |
+| password_hash | String        | -           | -      | +        |
+| premium_user  | Boolean       | -           | -      | -        |
+-------------------------------------------------------------------
 
----
+## Flask and Flask-extensions 
 
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
+[Flask Documentation](http://flask.pocoo.org/docs/)<br>
+Flask is often referred to as a micro framework, because a core functionality includes WSGI and routing based on Werkzeug and template engine based on Jinja2. In addition, Flask framework has support for cookie and sessions as well as web helpers like JSON, static files etc. Obviously, this is not enough for the development of a full-fledged web application.
+There are a large number of Flask extensions available. A Flask extension is a Python module, which adds specific type of support to the Flask application.
 
-#### USERS
-
----
-
-```
-{
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
-}
-```
-
-## 2️⃣ Actions
-
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
-## 3️⃣ Environment Variables
+[Flask Extensions](http://flask.pocoo.org/extensions/)<br>
+These are the listed Flask-extensions used in this project
+- `Flask-login` - Flask-Login provides user session management for Flask. It handles the common tasks of logging in, logging out, and remembering your users' sessions over extended periods of time.
+- `Flask-migrate` - Flask-Migrate is an extension that handles SQLAlchemy database migrations for Flask applications using Alembic.
+- `Flask-sqlchamy` - SQLAlchemy is the Python SQL toolkit and the Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+- `Flask-mail` - A web based application is often required to have a feature of sending mail to the users/clients. Flask-Mail extension makes it very easy to set up a simple interface with any email server.
+- `Flask-dance` - Flask-Dance is an approved extension that allows developers to build Flask-based apps to allow users to authenticate via OAuth protocol.  
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
-create a .env file that includes the following:
+create a config.py(DON'T FORGET TO ADD IT TO `.gitignore`) file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
+### config.py
+- import os
+- basedir = os.path.abspath(os.path.dirname(__file__))
+- class Config(object):
+    - SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    - SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \ 'sqlite:///' + os.path.join(basedir, 'app.db')
+    - SQLALCHEMY_TRACK_MODIFICATIONS = False
+    - LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    - STRIPE_PUB_KEY `this is generated in the Stripe dashboard`
+    - STRIPE_SECRET_KEY `this is generated in the Stripe dashboard`
+
+    - GITHUB_CLIENT_ID  = `github developer key`
+    - GITHUB_CLIENT_SECRET = `github developer key`
+
+    - GOOGLE_CLIENT_ID = `google developer key`
+    - GOOGLE_CLIENT_SECRET = `google developer key`
+
+    - TWITTER_API_KEY = `twitter developer key`
+    - TWITTER_API_SECRET  = `twitter developer key`
+
+    - ADMINS = ['your-email@example.com']
+    - MAIL_SERVER = `smtp.gmail.com`
+    - MAIL_PORT =  587
+    - MAIL_USE_TLS = True
+    - MAIL_USERNAME = `'you@google.com`
+    - MAIL_PASSWORD = `GooglePasswordHere`
     
-## Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+See [Data Science](https://github.com/labs13-stock-price/data-science) for details on the fronend of our project.
 
-Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
-
-### Issue/Bug Request
-
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
-
-### Feature Requests
-
-We would love to hear from you about new features which would improve this app and further the aims of our project. Please provide as much detail and information as possible to show us why you think your new feature should be implemented.
-
-### Pull Requests
-
-If you have developed a patch, bug fix, or new feature that would improve this app, please submit a pull request. It is best to communicate your ideas with the developers first before investing a great deal of time into a pull request to ensure that it will mesh smoothly with the project.
-
-Remember that this project is licensed under the MIT license, and by submitting a pull request, you agree that your work will be, too.
-
-#### Pull Request Guidelines
-
-- Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-- Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
-- Ensure that your code conforms to our existing code conventions and test coverage.
-- Include the relevant issue number, if applicable.
-- You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
-
-### Attribution
-
-These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
-
-
-Test
