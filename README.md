@@ -8,6 +8,7 @@ Back-end as well as Front-end repo for labs13-Stock-price
 
 # API Documentation
 
+#### Landing page [Netlify link](https://friendly-khorana-e1b209.netlify.com/)<br>
 #### App delpoyed at [HEROKU](https://stock-price-stripe.herokuapp.com/) <br>
 
 ## Getting started
